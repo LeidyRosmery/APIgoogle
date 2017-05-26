@@ -6,7 +6,7 @@ function initMap() {
         lng: -77.0349046
     };
     var map = new google.maps.Map(document.getElementById("map"), {
-        zoom: 18,
+        zoom: 13,
         center: laboratoriaLima
     });
     var markadorLaboratoria = new google.maps.Marker({
@@ -22,17 +22,22 @@ function initMap() {
     var funcionExito = function(posicion) {
         latitud = posicion.coords.latitude;
         longitud = posicion.coords.longitude;
-        map.setZoom(18);
-        map.setCenter({
-            lat: latitud,
-            lng: longitud
-        });
+
         miUbicacion = new google.maps.Marker({
             position: {
                 lat: latitud,
                 lng: longitud
             },
-            map: map
+            map: map,
+            animation: google.maps.Animation.DROP,
+            icon: 'assets/img/icon.png',
+            title: "Yo me encuentro aqui"
+
+        });
+        map.setZoom(18);
+        map.setCenter({
+            lat: latitud,
+            lng: longitud
         });
     }
 
@@ -41,6 +46,7 @@ function initMap() {
             navigator.geolocation.getCurrentPosition(funcionExito, funcionError);
         }
     }
+    var tarifa=document.getElementById("tarifa");
     document.getElementById("encuentrame").addEventListener("click", buscar);
     var inputPartida = document.getElementById("punto-partida");
     var inputDestino = document.getElementById("punto-destino");
@@ -57,7 +63,7 @@ function initMap() {
             if (status === 'OK') {
                 /************codigo distancia************/
                 var distancia = Number((response.routes[0].legs[0].distance.text.replace("km", "")).replace(",", "."));
-                tarifa.classList.remove("none");
+                //tarifa.classList.remove("none");
                 var costo = distancia * 1.75;
                 if (costo < 4) {
                     tarifa.innerHTML = "S/. 4"
@@ -66,7 +72,7 @@ function initMap() {
                 console.log(response.routes[0].legs[0].distance.text);
                 /************codigo distancia************/
                 directionsDisplay.setDirections(response);
-                miUbicacion.setMap(null);
+                //miUbicacion.setMap(null);
             } else {
                 window.alert("No econtramos una ruta.");
             }
@@ -77,4 +83,5 @@ function initMap() {
         calculateAndDisplayRoute(directionsService, directionsDisplay);
     };
     document.getElementById("trazar-ruta").addEventListener("click", trazarRuta);
+
 }

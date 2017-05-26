@@ -36,3 +36,11 @@ div#map{
 .form-control[placeholder] {
   color: #fff;
 }
+#tarifa{
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  background: gray;
+  bottom: 0;
+  right: 0;
+}
